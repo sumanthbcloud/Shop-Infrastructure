@@ -3,6 +3,8 @@
 *.tfstate.*
 *.tfvars
 !*.tfvars.example
+!environments/prod/terraform.tfvars
+*.auto.tfvars
 *.tfplan
 *.plan
 crash.log
@@ -13,3 +15,23 @@ override.tf.json
 *_override.tf.json
 .terraformrc
 terraform.rc
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local environment and credential files
+.env
+.env.*
+!.env.example
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+credentials
+credentials.*
+*.pem
+*.key
