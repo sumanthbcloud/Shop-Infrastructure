@@ -1,12 +1,12 @@
 aws_region           = "us-east-1"
-project_name         = "sum-store"
+project_name         = "SUM-shop"
 environment          = "prod"
 vpc_cidr             = "10.20.0.0/16"
 availability_zones   = ["us-east-1a", "us-east-1b"]
 public_subnet_cidrs  = ["10.20.0.0/24", "10.20.1.0/24"]
 private_subnet_cidrs = ["10.20.10.0/24", "10.20.11.0/24"]
-cluster_name         = "sum-store-prod"
-node_instance_type   = "t3.medium"
+cluster_name         = "sum-shop"
+node_instance_type   = "m7i-flex.large"
 node_min_size        = 2
 node_desired_size    = 2
 node_max_size        = 4
