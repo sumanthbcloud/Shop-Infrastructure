@@ -1,7 +1,0 @@
-aws_region  = "us-east-1"
-bucket_name = "replace-with-a-globally-unique-sumstore-tfstate-bucket"
-
-tags = {
-  Project   = "sum-store"
-  ManagedBy = "terraform"
-}
