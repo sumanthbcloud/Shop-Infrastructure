@@ -23,9 +23,9 @@ variable "cluster_name" {
 }
 
 variable "kubernetes_version" {
-  description = "Kubernetes version for the EKS cluster. NOTE: Current value is a temporary validation placeholder; an approved current AWS-supported version must be selected immediately prior to live deployment."
+  description = "Kubernetes version for the EKS cluster."
   type        = string
-  default     = "1.30"
+  default     = "1.36"
 }
 
 variable "vpc_cidr" {

@@ -7,11 +7,8 @@ project_name = "sum-store"
 environment  = "prod"
 cluster_name = "sum-shop"
 
-# EKS Version Selection:
-# NOTE: The value below is a temporary validation placeholder.
-# An approved, current AWS-supported EKS version must be explicitly selected and pinned
-# immediately prior to live terraform plan/apply.
-kubernetes_version = "1.30"
+# EKS Kubernetes version explicitly pinned for this environment.
+kubernetes_version = "1.36"
 
 # Networking
 vpc_cidr             = "10.20.0.0/16"
