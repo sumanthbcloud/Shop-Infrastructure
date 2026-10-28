@@ -49,17 +49,6 @@ variable "enable_nat_gateway" {
   default     = true
 }
 
-variable "client_ssh_cidr_blocks" {
-  description = "Allowed CIDR blocks for SSH access to the administrative client EC2. NEVER allow 0.0.0.0/0. Defaults to empty (SSM only)."
-  type        = list(string)
-  default     = []
-
-  validation {
-    condition     = !contains(var.client_ssh_cidr_blocks, "0.0.0.0/0")
-    error_message = "SSH access from 0.0.0.0/0 is strictly prohibited for security."
-  }
-}
-
 variable "tags" {
   description = "Tags for VPC resources."
   type        = map(string)

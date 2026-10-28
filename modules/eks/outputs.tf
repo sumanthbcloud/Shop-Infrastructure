@@ -13,12 +13,6 @@ output "cluster_security_group_id" {
   value       = aws_eks_cluster.this.vpc_config[0].cluster_security_group_id
 }
 
-output "cluster_certificate_authority_data" {
-  description = "Base64-encoded certificate data for the EKS cluster."
-  value       = aws_eks_cluster.this.certificate_authority[0].data
-  sensitive   = true
-}
-
 output "cluster_oidc_issuer" {
   description = "OIDC issuer URL exposed by the EKS cluster."
   value       = aws_eks_cluster.this.identity[0].oidc[0].issuer
@@ -29,11 +23,6 @@ output "node_group_name" {
   value       = aws_eks_node_group.this.node_group_name
 }
 
-output "ebs_csi_addon_name" {
-  description = "Name of the managed EBS CSI add-on."
-  value       = aws_eks_addon.ebs_csi.addon_name
-}
-
 output "external_secrets_pod_identity_association_id" {
   description = "ID of the External Secrets Operator Pod Identity association."
   value       = aws_eks_pod_identity_association.external_secrets.id
@@ -42,9 +31,4 @@ output "external_secrets_pod_identity_association_id" {
 output "aws_load_balancer_controller_pod_identity_association_id" {
   description = "ID of the AWS Load Balancer Controller Pod Identity association."
   value       = aws_eks_pod_identity_association.aws_load_balancer_controller.id
-}
-
-output "client_ec2_access_entry_arn" {
-  description = "ARN of the EKS access entry for the administrative client EC2."
-  value       = aws_eks_access_entry.client_ec2.access_entry_arn
 }

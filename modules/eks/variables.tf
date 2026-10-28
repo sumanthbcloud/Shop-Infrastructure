@@ -98,15 +98,6 @@ variable "external_secrets_service_account" {
   default     = "external-secrets"
 }
 
-variable "client_ec2_role_arn" {
-  description = "ARN of the administrative client EC2 IAM role for EKS access entry."
-  type        = string
-}
-
-variable "client_ec2_security_group_id" {
-  description = "Security group ID of the client EC2 workstation for API ingress."
-  type        = string
-}
 
 variable "aws_load_balancer_controller_role_arn" {
   description = "ARN of the IAM role for AWS Load Balancer Controller Pod Identity association."

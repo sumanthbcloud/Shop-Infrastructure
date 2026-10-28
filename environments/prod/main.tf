@@ -1,15 +1,14 @@
 module "vpc" {
   source = "../../modules/vpc"
 
-  name                   = "${var.project_name}-${var.environment}"
-  cluster_name           = var.cluster_name
-  cidr                   = var.vpc_cidr
-  availability_zones     = var.availability_zones
-  public_subnet_cidrs    = var.public_subnet_cidrs
-  private_subnet_cidrs   = var.private_subnet_cidrs
-  client_ssh_cidr_blocks = var.client_ssh_cidr_blocks
-  enable_nat_gateway     = true
-  tags                   = local.common_tags
+  name                 = "${var.project_name}-${var.environment}"
+  cluster_name         = var.cluster_name
+  cidr                 = var.vpc_cidr
+  availability_zones   = var.availability_zones
+  public_subnet_cidrs  = var.public_subnet_cidrs
+  private_subnet_cidrs = var.private_subnet_cidrs
+  enable_nat_gateway   = true
+  tags                 = local.common_tags
 }
 
 module "secrets" {
@@ -37,8 +36,6 @@ module "eks" {
   node_role_arn                         = module.iam.node_role_arn
   ebs_csi_role_arn                      = module.iam.ebs_csi_role_arn
   external_secrets_role_arn             = module.iam.external_secrets_role_arn
-  client_ec2_role_arn                   = module.iam.client_ec2_role_arn
-  client_ec2_security_group_id          = module.vpc.client_ec2_security_group_id
   aws_load_balancer_controller_role_arn = module.iam.aws_load_balancer_controller_role_arn
   cluster_endpoint_private_access       = var.cluster_endpoint_private_access
   cluster_endpoint_public_access        = var.cluster_endpoint_public_access

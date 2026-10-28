@@ -23,7 +23,7 @@ output "vpc_id" {
 }
 
 output "public_subnet_ids" {
-  description = "IDs of the public subnets (where client EC2 is launched)."
+  description = "IDs of the public subnets."
   value       = module.vpc.public_subnet_ids
 }
 
@@ -50,25 +50,6 @@ output "eks_cluster_security_group_id" {
 output "eks_node_group_name" {
   description = "Name of the managed node group."
   value       = module.eks.node_group_name
-}
-
-# ------------------------------------------------------------------------------
-# Administrative Client EC2 Prerequisites
-# ------------------------------------------------------------------------------
-
-output "client_ec2_instance_profile_name" {
-  description = "IAM instance profile name for launching the administrative client EC2."
-  value       = module.iam.client_ec2_instance_profile_name
-}
-
-output "client_ec2_security_group_id" {
-  description = "Security group ID for the administrative client EC2 workstation."
-  value       = module.vpc.client_ec2_security_group_id
-}
-
-output "client_ec2_role_arn" {
-  description = "IAM role ARN for the administrative client EC2."
-  value       = module.iam.client_ec2_role_arn
 }
 
 # ------------------------------------------------------------------------------

@@ -23,7 +23,7 @@ variable "cluster_name" {
 }
 
 variable "kubernetes_version" {
-  description = "Kubernetes version for the EKS cluster (e.g., 1.30)."
+  description = "Kubernetes version for the EKS cluster. NOTE: Current value is a temporary validation placeholder; an approved current AWS-supported version must be selected immediately prior to live deployment."
   type        = string
   default     = "1.30"
 }
@@ -83,17 +83,6 @@ variable "cluster_endpoint_public_access_cidrs" {
   description = "List of CIDR blocks that can access the Amazon EKS public API server endpoint if enabled."
   type        = list(string)
   default     = []
-}
-
-variable "client_ssh_cidr_blocks" {
-  description = "Allowed CIDR blocks for SSH access to the client EC2 workstation. 0.0.0.0/0 is strictly prohibited."
-  type        = list(string)
-  default     = []
-
-  validation {
-    condition     = !contains(var.client_ssh_cidr_blocks, "0.0.0.0/0")
-    error_message = "SSH access from 0.0.0.0/0 is strictly prohibited for security."
-  }
 }
 
 variable "node_instance_types" {
