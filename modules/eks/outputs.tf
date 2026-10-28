@@ -33,3 +33,8 @@ output "ebs_csi_addon_name" {
   description = "Name of the managed EBS CSI add-on."
   value       = aws_eks_addon.ebs_csi.addon_name
 }
+
+output "external_secrets_pod_identity_association_id" {
+  description = "ID of the External Secrets Operator Pod Identity association."
+  value       = aws_eks_pod_identity_association.external_secrets.id
+}

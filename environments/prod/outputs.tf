@@ -52,3 +52,18 @@ output "ebs_csi_addon_name" {
   description = "Name of the EBS CSI managed add-on."
   value       = module.eks.ebs_csi_addon_name
 }
+
+output "external_secrets_role_arn" {
+  description = "ARN of the External Secrets Operator Pod Identity IAM role."
+  value       = module.iam.external_secrets_role_arn
+}
+
+output "mysql_secret_arn" {
+  description = "ARN of the SUM Store MySQL Secrets Manager secret."
+  value       = module.secrets.mysql_secret_arn
+}
+
+output "rabbitmq_secret_arn" {
+  description = "ARN of the SUM Store RabbitMQ Secrets Manager secret."
+  value       = module.secrets.rabbitmq_secret_arn
+}

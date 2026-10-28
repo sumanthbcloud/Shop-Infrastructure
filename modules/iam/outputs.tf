@@ -15,3 +15,9 @@ output "ebs_csi_role_arn" {
   value       = aws_iam_role.ebs_csi.arn
   depends_on  = [aws_iam_role_policy_attachment.ebs_csi]
 }
+
+output "external_secrets_role_arn" {
+  description = "ARN of the External Secrets Operator Pod Identity IAM role."
+  value       = aws_iam_role.external_secrets.arn
+  depends_on  = [aws_iam_role_policy_attachment.external_secrets]
+}

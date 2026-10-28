@@ -81,3 +81,48 @@ resource "aws_iam_role_policy_attachment" "ebs_csi" {
   role       = aws_iam_role.ebs_csi.name
   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
+
+data "aws_iam_policy_document" "external_secrets_assume_role" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole",
+      "sts:TagSession",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["pods.eks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "external_secrets" {
+  name               = "${var.cluster_name}-external-secrets-role"
+  assume_role_policy = data.aws_iam_policy_document.external_secrets_assume_role.json
+  tags               = var.tags
+}
+
+data "aws_iam_policy_document" "external_secrets" {
+  statement {
+    sid    = "AllowReadSumstoreSecrets"
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+    ]
+    resources = var.external_secrets_target_arns
+  }
+}
+
+resource "aws_iam_policy" "external_secrets" {
+  name        = "${var.cluster_name}-external-secrets-policy"
+  description = "Least-privilege policy for External Secrets Operator to access SUM Store Secrets Manager secrets."
+  policy      = data.aws_iam_policy_document.external_secrets.json
+  tags        = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "external_secrets" {
+  role       = aws_iam_role.external_secrets.name
+  policy_arn = aws_iam_policy.external_secrets.arn
+}

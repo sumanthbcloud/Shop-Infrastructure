@@ -74,3 +74,20 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "external_secrets_role_arn" {
+  description = "ARN of the IAM role for External Secrets Operator Pod Identity association."
+  type        = string
+}
+
+variable "external_secrets_namespace" {
+  description = "Kubernetes namespace where External Secrets Operator runs."
+  type        = string
+  default     = "external-secrets"
+}
+
+variable "external_secrets_service_account" {
+  description = "Kubernetes service account used by External Secrets Operator."
+  type        = string
+  default     = "external-secrets"
+}

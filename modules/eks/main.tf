@@ -71,3 +71,12 @@ resource "aws_eks_addon" "ebs_csi" {
 
   depends_on = [aws_eks_pod_identity_association.ebs_csi]
 }
+
+resource "aws_eks_pod_identity_association" "external_secrets" {
+  cluster_name    = aws_eks_cluster.this.name
+  namespace       = var.external_secrets_namespace
+  service_account = var.external_secrets_service_account
+  role_arn        = var.external_secrets_role_arn
+
+  depends_on = [aws_eks_addon.standard["eks-pod-identity-agent"]]
+}
