@@ -90,3 +90,13 @@ output "rabbitmq_secret_arn" {
   description = "Secrets Manager ARN for RabbitMQ credentials container."
   value       = module.secrets.rabbitmq_secret_arn
 }
+
+output "mongodb_secret_arn" {
+  description = "Secrets Manager ARN for MongoDB credentials container."
+  value       = module.secrets.mongodb_secret_arn
+}
+
+output "redis_secret_arn" {
+  description = "Secrets Manager ARN for Redis credentials container."
+  value       = module.secrets.redis_secret_arn
+}
