@@ -76,10 +76,18 @@ rm -f kubectl
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
 # Install Argo CD CLI
-ARGOCD_VERSION="v2.13.0"
-curl -sSL -o argocd-linux-amd64 "https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64"
-install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm -f argocd-linux-amd64
+# NOTE: Controller & CLI versions must not be hardcoded offline. A currently supported
+# stable release compatible with the cluster version must be selected and explicitly
+# pinned immediately before cluster bootstrap.
+ARGOCD_VERSION="${ARGOCD_VERSION:-}"
+if [ -z "${ARGOCD_VERSION}" ]; then
+  ARGOCD_VERSION=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases/latest | jq -r .tag_name 2>/dev/null || echo "")
+fi
+if [ -n "${ARGOCD_VERSION}" ]; then
+  curl -sSL -o argocd-linux-amd64 "https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64"
+  install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+  rm -f argocd-linux-amd64
+fi
 
 echo "Base bootstrap complete." > /var/log/client-bootstrap.log
 UD_EOF
