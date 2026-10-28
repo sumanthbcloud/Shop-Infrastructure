@@ -67,3 +67,23 @@ output "rabbitmq_secret_arn" {
   description = "ARN of the SUM Store RabbitMQ Secrets Manager secret."
   value       = module.secrets.rabbitmq_secret_arn
 }
+
+output "client_ec2_role_arn" {
+  description = "ARN of the administrative client EC2 IAM role."
+  value       = module.iam.client_ec2_role_arn
+}
+
+output "client_ec2_instance_profile_name" {
+  description = "Name of the administrative client EC2 IAM instance profile."
+  value       = module.iam.client_ec2_instance_profile_name
+}
+
+output "client_ec2_security_group_id" {
+  description = "Security group ID for the administrative client EC2 workstation."
+  value       = module.vpc.client_ec2_security_group_id
+}
+
+output "aws_load_balancer_controller_role_arn" {
+  description = "ARN of the AWS Load Balancer Controller Pod Identity IAM role."
+  value       = module.iam.aws_load_balancer_controller_role_arn
+}

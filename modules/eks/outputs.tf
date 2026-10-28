@@ -38,3 +38,13 @@ output "external_secrets_pod_identity_association_id" {
   description = "ID of the External Secrets Operator Pod Identity association."
   value       = aws_eks_pod_identity_association.external_secrets.id
 }
+
+output "aws_load_balancer_controller_pod_identity_association_id" {
+  description = "ID of the AWS Load Balancer Controller Pod Identity association."
+  value       = aws_eks_pod_identity_association.aws_load_balancer_controller.id
+}
+
+output "client_ec2_access_entry_arn" {
+  description = "ARN of the EKS access entry for the administrative client EC2."
+  value       = aws_eks_access_entry.client_ec2.access_entry_arn
+}

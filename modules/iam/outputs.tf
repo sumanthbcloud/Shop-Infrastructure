@@ -21,3 +21,24 @@ output "external_secrets_role_arn" {
   value       = aws_iam_role.external_secrets.arn
   depends_on  = [aws_iam_role_policy_attachment.external_secrets]
 }
+
+output "client_ec2_role_arn" {
+  description = "ARN of the administrative client EC2 IAM role."
+  value       = aws_iam_role.client_ec2.arn
+}
+
+output "client_ec2_instance_profile_name" {
+  description = "Name of the administrative client EC2 IAM instance profile."
+  value       = aws_iam_instance_profile.client_ec2.name
+}
+
+output "client_ec2_instance_profile_arn" {
+  description = "ARN of the administrative client EC2 IAM instance profile."
+  value       = aws_iam_instance_profile.client_ec2.arn
+}
+
+output "aws_load_balancer_controller_role_arn" {
+  description = "ARN of the AWS Load Balancer Controller Pod Identity IAM role."
+  value       = aws_iam_role.aws_load_balancer_controller.arn
+  depends_on  = [aws_iam_role_policy_attachment.aws_load_balancer_controller]
+}

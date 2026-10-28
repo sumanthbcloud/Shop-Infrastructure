@@ -91,3 +91,48 @@ variable "external_secrets_service_account" {
   type        = string
   default     = "external-secrets"
 }
+
+variable "client_ec2_role_arn" {
+  description = "ARN of the administrative client EC2 IAM role for EKS access entry."
+  type        = string
+}
+
+variable "client_ec2_security_group_id" {
+  description = "Security group ID of the client EC2 workstation for API ingress."
+  type        = string
+}
+
+variable "aws_load_balancer_controller_role_arn" {
+  description = "ARN of the IAM role for AWS Load Balancer Controller Pod Identity association."
+  type        = string
+}
+
+variable "aws_load_balancer_controller_namespace" {
+  description = "Kubernetes namespace where AWS Load Balancer Controller runs."
+  type        = string
+  default     = "kube-system"
+}
+
+variable "aws_load_balancer_controller_service_account" {
+  description = "Kubernetes service account used by AWS Load Balancer Controller."
+  type        = string
+  default     = "aws-load-balancer-controller"
+}
+
+variable "cluster_endpoint_private_access" {
+  description = "Whether the Amazon EKS private API server endpoint is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "cluster_endpoint_public_access" {
+  description = "Whether the Amazon EKS public API server endpoint is enabled."
+  type        = bool
+  default     = false
+}
+
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "List of CIDR blocks that can access the Amazon EKS public API server endpoint."
+  type        = list(string)
+  default     = []
+}
