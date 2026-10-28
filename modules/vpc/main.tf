@@ -115,15 +115,28 @@ resource "aws_route_table_association" "private" {
 
 resource "aws_security_group" "client_ec2" {
   name        = "${var.name}-client-ec2-sg"
-  description = "Security group for the administrative client EC2 workstation (egress-only, accessed via SSM)"
+  description = "Security group for the administrative client EC2 workstation (SSM egress, optional restricted SSH)"
   vpc_id      = aws_vpc.this.id
 
+  # Primary access: Egress-only for AWS Systems Manager Session Manager
   egress {
-    description = "Allow all outbound traffic for SSM, tools download, and API access"
+    description = "Allow all outbound traffic for SSM, tool downloads, and API access"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Optional: Explicitly restricted SSH access (0.0.0.0/0 prohibited by variable validation)
+  dynamic "ingress" {
+    for_each = length(var.client_ssh_cidr_blocks) > 0 ? [1] : []
+    content {
+      description = "Restricted SSH access from approved management CIDRs"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = var.client_ssh_cidr_blocks
+    }
   }
 
   tags = merge(var.tags, {

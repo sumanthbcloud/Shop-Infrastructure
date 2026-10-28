@@ -4,7 +4,7 @@ variable "cluster_name" {
 }
 
 variable "kubernetes_version" {
-  description = "Kubernetes version for the EKS cluster."
+  description = "Kubernetes version for the EKS cluster (e.g., 1.30)."
   type        = string
   default     = null
   nullable    = true
@@ -30,10 +30,16 @@ variable "ebs_csi_role_arn" {
   type        = string
 }
 
-variable "node_instance_type" {
-  description = "EC2 instance type used by the managed node group."
-  type        = string
-  default     = "t3.medium"
+variable "node_instance_types" {
+  description = "EC2 instance types used by the managed node group."
+  type        = list(string)
+  default     = ["m7i-flex.large"]
+}
+
+variable "node_disk_size" {
+  description = "Root volume size in GiB for worker nodes."
+  type        = number
+  default     = 50
 }
 
 variable "node_min_size" {

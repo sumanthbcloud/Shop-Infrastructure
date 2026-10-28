@@ -1,77 +1,111 @@
 variable "aws_region" {
-  description = "AWS region for the production environment."
+  description = "AWS region for the environment."
   type        = string
   default     = "us-east-1"
 }
 
 variable "project_name" {
-  description = "Project name used for naming and tags."
+  description = "Project name used for naming and common tags."
   type        = string
   default     = "sum-store"
 }
 
 variable "environment" {
-  description = "Deployment environment name."
+  description = "Deployment environment name (e.g., prod, dev)."
   type        = string
   default     = "prod"
 }
 
+variable "cluster_name" {
+  description = "Name of the Amazon EKS cluster."
+  type        = string
+  default     = "sum-shop"
+}
+
+variable "kubernetes_version" {
+  description = "Kubernetes version for the EKS cluster (e.g., 1.30)."
+  type        = string
+  default     = "1.30"
+}
+
 variable "vpc_cidr" {
-  description = "CIDR block for the production VPC."
+  description = "CIDR block for the VPC."
   type        = string
   default     = "10.20.0.0/16"
 }
 
 variable "availability_zones" {
-  description = "Two availability zones used by the production VPC."
+  description = "Availability zones used by the VPC."
   type        = list(string)
   default     = ["us-east-1a", "us-east-1b"]
 
   validation {
-    condition     = length(var.availability_zones) == 2
-    error_message = "Exactly two availability zones are required."
+    condition     = length(var.availability_zones) >= 2
+    error_message = "At least two availability zones are required for high availability."
   }
 }
 
 variable "public_subnet_cidrs" {
-  description = "CIDR blocks for the two public subnets."
+  description = "CIDR blocks for the public subnets (must match the number of availability zones)."
   type        = list(string)
   default     = ["10.20.0.0/24", "10.20.1.0/24"]
 
   validation {
-    condition     = length(var.public_subnet_cidrs) == 2
-    error_message = "Exactly two public subnet CIDRs are required."
+    condition     = length(var.public_subnet_cidrs) == length(var.availability_zones)
+    error_message = "The number of public subnet CIDRs must match the number of availability zones."
   }
 }
 
 variable "private_subnet_cidrs" {
-  description = "CIDR blocks for the two private subnets."
+  description = "CIDR blocks for the private subnets (must match the number of availability zones)."
   type        = list(string)
   default     = ["10.20.10.0/24", "10.20.11.0/24"]
 
   validation {
-    condition     = length(var.private_subnet_cidrs) == 2
-    error_message = "Exactly two private subnet CIDRs are required."
+    condition     = length(var.private_subnet_cidrs) == length(var.availability_zones)
+    error_message = "The number of private subnet CIDRs must match the number of availability zones."
   }
 }
 
-variable "cluster_name" {
-  description = "Name of the future EKS cluster."
-  type        = string
-  default     = "sum-store-prod"
+variable "cluster_endpoint_private_access" {
+  description = "Whether the Amazon EKS private API server endpoint is enabled."
+  type        = bool
+  default     = true
 }
 
-variable "kubernetes_version" {
-  description = "Kubernetes version for the future EKS cluster."
-  type        = string
-  default     = null
-  nullable    = true
+variable "cluster_endpoint_public_access" {
+  description = "Whether the Amazon EKS public API server endpoint is enabled."
+  type        = bool
+  default     = false
 }
 
-variable "node_instance_type" {
-  description = "EC2 instance type used by the EKS managed node group."
-  type        = string
-  default     = "t3.medium"
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "List of CIDR blocks that can access the Amazon EKS public API server endpoint if enabled."
+  type        = list(string)
+  default     = []
+}
+
+variable "client_ssh_cidr_blocks" {
+  description = "Allowed CIDR blocks for SSH access to the client EC2 workstation. 0.0.0.0/0 is strictly prohibited."
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition     = !contains(var.client_ssh_cidr_blocks, "0.0.0.0/0")
+    error_message = "SSH access from 0.0.0.0/0 is strictly prohibited for security."
+  }
+}
+
+variable "node_instance_types" {
+  description = "EC2 instance types used by the EKS managed node group."
+  type        = list(string)
+  default     = ["m7i-flex.large"]
+}
+
+variable "node_disk_size" {
+  description = "Root disk size in GiB for EKS worker nodes."
+  type        = number
+  default     = 50
 }
 
 variable "node_min_size" {
@@ -92,20 +126,8 @@ variable "node_max_size" {
   default     = 4
 }
 
-variable "cluster_endpoint_private_access" {
-  description = "Whether the Amazon EKS private API server endpoint is enabled."
-  type        = bool
-  default     = true
-}
-
-variable "cluster_endpoint_public_access" {
-  description = "Whether the Amazon EKS public API server endpoint is enabled."
-  type        = bool
-  default     = false
-}
-
-variable "cluster_endpoint_public_access_cidrs" {
-  description = "List of CIDR blocks that can access the Amazon EKS public API server endpoint."
-  type        = list(string)
-  default     = []
+variable "secret_prefix" {
+  description = "Prefix for AWS Secrets Manager secret containers."
+  type        = string
+  default     = "sumstore"
 }

@@ -24,7 +24,8 @@ resource "aws_eks_node_group" "this" {
   node_role_arn   = var.node_role_arn
   subnet_ids      = var.private_subnet_ids
   version         = var.kubernetes_version
-  instance_types  = [var.node_instance_type]
+  instance_types  = var.node_instance_types
+  disk_size       = var.node_disk_size
   capacity_type   = "ON_DEMAND"
 
   scaling_config {
